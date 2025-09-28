@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VALR Adventure — Tuscany Tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#154734;--gold:#DF9422;--mint:#E6F0EB;--white:#fff;--text:var(--white);--muted:#d7e3dc;--card:#113a2a;--btn:var(--gold);--btnh:#c8821f;--radius:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--green);color:var(--text);font-family:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial,sans-serif}
+a{color:inherit;text-decoration:none}
+header{background:var(--green);border-bottom:3px solid var(--gold);padding:22px 16px;text-align:center}
+h1{margin:0;font-family:"Oswald",Impact,"DIN Condensed","Arial Narrow",sans-serif;letter-spacing:.4px}
+main{max-width:1100px;margin:24px auto 48px;padding:0 16px}
+.crumbs{margin:8px 0 16px;font-size:14px;color:var(--mint)} .crumbs a{text-decoration:underline;color:var(--mint)}
+.intro{background:#0f3224;border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:14px 16px;color:var(--mint)}
+h2{margin:18px 0 8px;font-family:"Oswald",Impact,"DIN Condensed","Arial Narrow",sans-serif}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:12px}
+.card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:16px;box-shadow:0 10px 28px rgba(0,0,0,.25)}
+.card h3{margin:0 0 6px;font-family:"Oswald",Impact,"DIN Condensed","Arial Narrow",sans-serif}
+.card p{margin:0 0 12px;color:var(--muted);min-height:42px}
+.btn{display:inline-block;background:var(--btn);color:#fff;padding:9px 12px;border-radius:9px;font-weight:700}
+.btn:hover{background:var(--btnh)}
+.footer{max-width:1100px;margin:0 auto 28px;padding:0 16px;text-align:center;color:var(--mint);font-size:12px}
+</style>
+</head>
+<body>
+<header><h1>Tuscany Tour</h1></header>
+<main>
+  <div class="crumbs">← <a href="/index.html">Back to homepage</a></div>
+
+  <section class="intro">
+    <strong>Explore the tour.</strong> Each day has an interactive map, scenic highlights, and a GPX download.
+  </section>
+
+  <section>
+    <h2>Days</h2>
+    <div class="days">
+      <article class="card"><h3>Day 1</h3><p>Start of the tour. Route overview and scenic points.</p><a class="btn" href="./day01.html">Open Day 1</a></article>
+      <article class="card"><h3>Day 2</h3><p>Orte → Montepulciano; volcanic lake and hill towns.</p><a class="btn" href="./day02.html">Open Day 2</a></article>
+      <article class="card"><h3>Day 3</h3><p>Rolling Val d’Orcia roads and viewpoints.</p><a class="btn" href="./day03.html">Open Day 3</a></article>
+      <article class="card"><h3>Day 4</h3><p>Classic Tuscan ridgelines and villages.</p><a class="btn" href="./day04.html">Open Day 4</a></article>
+      <article class="card"><h3>Day 5</h3><p>Final leg and celebratory finish.</p><a class="btn" href="./day05.html">Open Day 5</a></article>
+    </div>
+  </section>
+</main>
+<div class="footer">© VALR Adventure · Hosted on GitHub Pages</div>
+</body>
+</html>
