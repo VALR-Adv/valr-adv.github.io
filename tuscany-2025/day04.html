@@ -6,7 +6,7 @@
   <title>Tuscany 2025 — Day 4</title>
 
   <!-- Leaflet CSS (cache-busted) -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css?v=4" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css?v=5" />
 
   <style>
     :root { --brand:#0b7285; --ink:#0b1b22; --muted:#718096; --bg:#f8fafc; }
@@ -37,7 +37,7 @@
 
   <main class="wrap">
     <div class="toolbar">
-      <a class="btn pill" href="./assets/gpx/day04.gpx?v=4" download>Download GPX</a>
+      <a class="btn pill" href="./assets/gpx/day04.gpx?v=5" download>Download GPX</a>
       <span class="muted">Load time may vary on mobile.</span>
     </div>
 
@@ -55,23 +55,18 @@
   <footer class="wrap">© VALR Adventures — Tuscany 2025</footer>
 
   <!-- JS libraries (cache-busted) -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js?v=4"></script>
-  <script src="https://unpkg.com/@mapbox/togeojson@0.16.0/dist/togeojson.min.js?v=4"></script>
-  <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js?v=4"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js?v=5"></script>
+  <script src="https://unpkg.com/@mapbox/togeojson@0.16.0/dist/togeojson.min.js?v=5"></script>
+  <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js?v=5"></script>
 
   <script>
-    // Base map
     const map = L.map('map', { zoomControl: true }).setView([43.77, 11.25], 7);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // GPX route (cache-busted)
-    const gpxUrl = './assets/gpx/day04.gpx?v=4';
-
-    const routeLayer = L.geoJson(null, {
-      style: { color: '#0b7285', weight: 4, opacity: 0.9 }
-    });
+    const gpxUrl = './assets/gpx/day04.gpx?v=5';
+    const routeLayer = L.geoJson(null, { style: { color: '#0b7285', weight: 4, opacity: 0.9 } });
 
     omnivore.gpx(gpxUrl, null, routeLayer)
       .on('ready', function() {
@@ -89,29 +84,17 @@
       .addTo(map);
 
     function computeGeoJsonDistanceKm(geo) {
-      const toRad = d => d * Math.PI / 180;
-      const R = 6371; let total = 0;
-
-      function addLine(coords) {
-        for (let i = 1; i < coords.length; i++) {
-          const [lon1, lat1] = coords[i-1], [lon2, lat2] = coords[i];
-          const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
-          const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-          total += 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const toRad = d => d * Math.PI / 180, R = 6371; let total = 0;
+      function addLine(coords){
+        for(let i=1;i<coords.length;i++){
+          const [lon1,lat1]=coords[i-1],[lon2,lat2]=coords[i];
+          const dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
+          const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+          total+=2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
         }
       }
-
-      if (geo.type === 'FeatureCollection') {
-        geo.features.forEach(f => {
-          const g = f.geometry; if (!g) return;
-          if (g.type === 'LineString') addLine(g.coordinates);
-          if (g.type === 'MultiLineString') g.coordinates.forEach(addLine);
-        });
-      } else if (geo.type === 'Feature') {
-        const g = geo.geometry;
-        if (g.type === 'LineString') addLine(g.coordinates);
-        if (g.type === 'MultiLineString') g.coordinates.forEach(addLine);
-      }
+      if (geo.type==='FeatureCollection') geo.features.forEach(f=>{const g=f.geometry;if(!g)return;if(g.type==='LineString')addLine(g.coordinates);if(g.type==='MultiLineString')g.coordinates.forEach(addLine);});
+      else if (geo.type==='Feature'){const g=geo.geometry;if(g.type==='LineString')addLine(g.coordinates);if(g.type==='MultiLineString')g.coordinates.forEach(addLine);}
       return total;
     }
   </script>
