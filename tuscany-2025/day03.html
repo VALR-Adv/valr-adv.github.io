@@ -4,10 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tuscany 2025 — Day 3</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Leaflet CSS (cache-busted) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css?v=4" />
+
   <style>
     :root { --brand:#0b7285; --ink:#0b1b22; --muted:#718096; --bg:#f8fafc; }
-    body{margin:0;font-family:system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;color:var(--ink);background:var(--bg);}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--ink);background:var(--bg);}
     header{padding:1rem;background:white;border-bottom:1px solid #e5e7eb;position:sticky;top:0}
     .crumbs a{color:var(--muted);text-decoration:none}.crumbs a:hover{color:var(--brand)}
     h1{margin:0.25rem 0 0.5rem;font-size:1.5rem}
@@ -31,46 +34,55 @@
       <p class="muted">Interactive route map and GPX download.</p>
     </div>
   </header>
+
   <main class="wrap">
     <div class="toolbar">
-      <a class="btn pill" href="./assets/gpx/day03.gpx" download>Download GPX</a>
+      <a class="btn pill" href="./assets/gpx/day03.gpx?v=4" download>Download GPX</a>
       <span class="muted">Load time may vary on mobile.</span>
     </div>
+
     <div class="stats">
       <div class="stat">Distance: <strong id="stat-distance">—</strong></div>
       <div class="stat">Ascent: <strong id="stat-ascent">—</strong></div>
       <div class="stat">Descent: <strong id="stat-descent">—</strong></div>
       <div class="stat">Moving Time: <strong id="stat-time">—</strong></div>
     </div>
+
     <p class="hint" id="statusHint"></p>
     <div id="map"></div>
   </main>
+
   <footer class="wrap">© VALR Adventures — Tuscany 2025</footer>
 
-  <!-- Leaflet -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- Robust GPX renderer: togeojson + leaflet-omnivore -->
-  <script src="https://unpkg.com/@mapbox/togeojson@0.16.0/dist/togeojson.min.js"></script>
-  <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js"></script>
+  <!-- JS libraries (cache-busted) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js?v=4"></script>
+  <script src="https://unpkg.com/@mapbox/togeojson@0.16.0/dist/togeojson.min.js?v=4"></script>
+  <script src="https://unpkg.com/leaflet-omnivore@0.3.4/leaflet-omnivore.min.js?v=4"></script>
 
   <script>
+    // Base map
     const map = L.map('map', { zoomControl: true }).setView([43.77, 11.25], 7);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    const gpxUrl = './assets/gpx/day03.gpx';
+    // GPX route (cache-busted)
+    const gpxUrl = './assets/gpx/day03.gpx?v=4';
+
     const routeLayer = L.geoJson(null, {
       style: { color: '#0b7285', weight: 4, opacity: 0.9 }
     });
 
+    // Robust GPX loading via Omnivore (handles most GPX variants)
     omnivore.gpx(gpxUrl, null, routeLayer)
       .on('ready', function() {
         map.fitBounds(routeLayer.getBounds(), { padding: [20,20] });
+
+        // Distance calculation from rendered GeoJSON
         try {
           const km = computeGeoJsonDistanceKm(routeLayer.toGeoJSON());
           if (isFinite(km)) document.getElementById('stat-distance').textContent = km.toFixed(1) + ' km';
-        } catch (e) {}
+        } catch (_) {}
         document.getElementById('statusHint').textContent = '';
       })
       .on('error', function() {
@@ -79,9 +91,11 @@
       })
       .addTo(map);
 
+    // Haversine distance over GeoJSON LineStrings/MultiLineStrings
     function computeGeoJsonDistanceKm(geo) {
       const toRad = d => d * Math.PI / 180;
       const R = 6371; let total = 0;
+
       function addLine(coords) {
         for (let i = 1; i < coords.length; i++) {
           const [lon1, lat1] = coords[i-1], [lon2, lat2] = coords[i];
@@ -90,12 +104,14 @@
           total += 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         }
       }
-      if (geo.type === 'FeatureCollection') geo.features.forEach(f => {
-        const g = f.geometry; if (!g) return;
-        if (g.type === 'LineString') addLine(g.coordinates);
-        if (g.type === 'MultiLineString') g.coordinates.forEach(addLine);
-      });
-      else if (geo.type === 'Feature') {
+
+      if (geo.type === 'FeatureCollection') {
+        geo.features.forEach(f => {
+          const g = f.geometry; if (!g) return;
+          if (g.type === 'LineString') addLine(g.coordinates);
+          if (g.type === 'MultiLineString') g.coordinates.forEach(addLine);
+        });
+      } else if (geo.type === 'Feature') {
         const g = geo.geometry;
         if (g.type === 'LineString') addLine(g.coordinates);
         if (g.type === 'MultiLineString') g.coordinates.forEach(addLine);
