@@ -68,7 +68,7 @@
     });
 
     // Render the GPX using omnivore (tolerant of GPX variants)
-    const loader = omnivore.gpx(gpxUrl, null, routeLayer)
+    omnivore.gpx(gpxUrl, null, routeLayer)
       .on('ready', function() {
         map.fitBounds(routeLayer.getBounds(), { padding: [20,20] });
         document.getElementById('statusHint').textContent = '';
@@ -108,8 +108,7 @@
 
       if (geo.type === 'FeatureCollection') {
         geo.features.forEach(f => {
-          const g = f.geometry;
-          if (!g) return;
+          const g = f.geometry; if (!g) return;
           if (g.type === 'LineString') addLine(g.coordinates);
           if (g.type === 'MultiLineString') g.coordinates.forEach(addLine);
         });
