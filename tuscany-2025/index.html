@@ -4,55 +4,80 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tuscany 2025 — VALR Adventures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { --brand:#0b7285; --ink:#0b1b22; --muted:#718096; --bg:#f8fafc; }
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--ink);background:var(--bg);}
-    header{padding:1rem;background:white;border-bottom:1px solid #e5e7eb}
-    h1{margin:0.25rem 0 0.5rem;font-size:1.75rem}
-    .wrap{max-width:1100px;margin:0 auto;padding:1rem}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:1.25rem}
-    .card{background:white;border:1px solid #e5e7eb;border-radius:14px;padding:1rem;display:flex;flex-direction:column;justify-content:space-between}
-    .card h2{margin:.2rem 0;font-size:1.2rem}
-    .btn{display:inline-block;margin-top:.5rem;padding:.6rem .9rem;border-radius:999px;border:1px solid #e5e7eb;background:white;text-decoration:none;color:var(--ink);font-weight:500;text-align:center}
-    .btn:hover{border-color:#cbd5e1}
-    footer{color:var(--muted);font-size:.9rem;padding:2rem 1.25rem;text-align:center}
+    :root{
+      --green:#154734; --gold:#DF9422; --mint:#E6F0EB; --ink:#ffffff;
+      --card:#113a2a; --muted:#d7e3dc; --btn:#DF9422; --btnh:#c8821f; --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--green);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+    header{background:var(--green);border-bottom:3px solid var(--gold);padding:18px 16px}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+    h1{margin:0;font-family:"Oswald",Impact,"DIN Condensed","Arial Narrow",sans-serif;letter-spacing:.5px}
+    .sub{color:var(--muted);margin-top:6px}
+    .crumbs{margin:10px 0 14px;font-size:14px;color:var(--mint)}
+    .crumbs a{color:var(--mint);text-decoration:underline}
+    main{padding:22px 0 60px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius);
+      padding:16px; display:flex; flex-direction:column; gap:8px; color:var(--mint)
+    }
+    .card h2{margin:0 0 4px 0; font-size:1.2rem; color:#fff; font-family:"Oswald",sans-serif}
+    .card p{margin:0; opacity:.9}
+    .btn{
+      display:inline-block; margin-top:8px; background:var(--btn); color:#fff;
+      padding:10px 14px; border-radius:12px; font-weight:700; text-align:center
+    }
+    .btn:hover{background:var(--btnh)}
+    footer{color:var(--muted);font-size:.9rem;padding:26px 16px;border-top:1px solid rgba(255,255,255,.08);text-align:center}
+    /* nice touch on focus */
+    a:focus{outline:3px solid rgba(223,148,34,.6); outline-offset:2px; border-radius:10px}
   </style>
 </head>
 <body>
   <header>
     <div class="wrap">
+      <div class="crumbs">← <a href="/">Back to Home</a></div>
       <h1>Tuscany 2025 Tour</h1>
-      <p class="muted">Explore each day’s interactive map and download GPX routes.</p>
+      <p class="sub">Explore each day’s interactive map and download the GPX routes.</p>
     </div>
   </header>
 
   <main class="wrap">
     <div class="grid">
-      <div class="card">
+      <article class="card">
         <h2>Day 1</h2>
         <p>Start of the Tuscany adventure.</p>
         <a class="btn" href="./day01.html?v=5">Open Day 1</a>
-      </div>
-      <div class="card">
+      </article>
+
+      <article class="card">
         <h2>Day 2</h2>
-        <p>Continuing through Tuscany’s landscapes.</p>
+        <p>Rolling landscapes and classic towns.</p>
         <a class="btn" href="./day02.html?v=5">Open Day 2</a>
-      </div>
-      <div class="card">
+      </article>
+
+      <article class="card">
         <h2>Day 3</h2>
-        <p>Exploring new routes and towns.</p>
+        <p>Scenic ridgelines and vineyard views.</p>
         <a class="btn" href="./day03.html?v=5">Open Day 3</a>
-      </div>
-      <div class="card">
+      </article>
+
+      <article class="card">
         <h2>Day 4</h2>
-        <p>Scenic highlights and climbs.</p>
+        <p>Climbs, cafés, and hilltop villages.</p>
         <a class="btn" href="./day04.html?v=5">Open Day 4</a>
-      </div>
-      <div class="card">
+      </article>
+
+      <article class="card">
         <h2>Day 5</h2>
-        <p>Final stage of the Tuscany tour.</p>
+        <p>Final stage and finish celebrations.</p>
         <a class="btn" href="./day05.html?v=5">Open Day 5</a>
-      </div>
+      </article>
     </div>
   </main>
 
