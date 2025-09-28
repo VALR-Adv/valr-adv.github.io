@@ -47,26 +47,41 @@
   <footer class="wrap">© VALR Adventures — Tuscany 2025</footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.min.js"></script>
-  <script>
-    const map = L.map('map', { zoomControl: true });
-    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19, attribution: '&copy; OpenStreetMap'
-    }).addTo(map);
+<script src="https://unpkg.com/leaflet-gpx@1.7.0/gpx.min.js"></script>
+<script>
+  const map = L.map('map', { zoomControl: true });
 
-    const gpxUrl = './assets/gpx/day01.gpx';
-    const g = new L.GPX(gpxUrl, {
-      async: true, marker_options: { startIconUrl: 'https://unpkg.com/leaflet-gpx/pin-icon-start.png', endIconUrl: 'https://unpkg.com/leaflet-gpx/pin-icon-end.png', shadowUrl: 'https://unpkg.com/leaflet-gpx/pin-shadow.png' }
-    })
-    .on('loaded', e => {
-      map.fitBounds(e.target.getBounds(), { padding: [20, 20] });
-      document.getElementById('stat-distance').textContent = (e.target.get_distance()/1000).toFixed(1) + ' km';
-      document.getElementById('stat-ascent').textContent = Math.round(e.target.get_elevation_gain()) + ' m';
-      document.getElementById('stat-descent').textContent = Math.round(e.target.get_elevation_loss()) + ' m';
-      const msec = e.target.get_total_time();
-      document.getElementById('stat-time').textContent = msec ? new Date(msec).toISOString().substr(11, 8) : '—';
-    })
-    .addTo(map);
-  </script>
+  // Fallback view (Tuscany area) so tiles render even before GPX loads:
+  map.setView([43.77, 11.25], 7);
+
+  // Use single-host OSM tiles (avoids some blockers on subdomains)
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const gpxUrl = './assets/gpx/day01.gpx';
+  new L.GPX(gpxUrl, {
+    async: true,
+    marker_options: {
+      startIconUrl: 'https://unpkg.com/leaflet-gpx/pin-icon-start.png',
+      endIconUrl: 'https://unpkg.com/leaflet-gpx/pin-icon-end.png',
+      shadowUrl: 'https://unpkg.com/leaflet-gpx/pin-shadow.png'
+    }
+  })
+  .on('loaded', e => {
+    map.fitBounds(e.target.getBounds(), { padding: [20,20] });
+    document.getElementById('stat-distance').textContent = (e.target.get_distance()/1000).toFixed(1) + ' km';
+    document.getElementById('stat-ascent').textContent = Math.round(e.target.get_elevation_gain()) + ' m';
+    document.getElementById('stat-descent').textContent = Math.round(e.target.get_elevation_loss()) + ' m';
+    const msec = e.target.get_total_time();
+    document.getElementById('stat-time').textContent = msec ? new Date(msec).toISOString().substr(11,8) : '—';
+  })
+  .on('error', () => {
+    document.getElementById('stat-distance').textContent = 'GPX failed to load';
+  })
+  .addTo(map);
+</script>
+
 </body>
 </html>
