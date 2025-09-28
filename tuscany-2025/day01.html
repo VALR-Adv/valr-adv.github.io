@@ -20,6 +20,7 @@
     .pill{font-size:.85rem;color:var(--brand);border-color:var(--brand)}
     .stats{display:flex;gap:1rem;flex-wrap:wrap;color:#334155;font-size:.95rem}
     .stat{background:white;border:1px solid #e5e7eb;border-radius:12px;padding:.5rem .75rem}
+    .hint{color:#64748b;font-size:.9rem;margin:.25rem 0 .75rem}
     footer{color:var(--muted);font-size:.9rem;padding:2rem 1.25rem}
   </style>
 </head>
@@ -42,6 +43,7 @@
       <div class="stat">Descent: <strong id="stat-descent">—</strong></div>
       <div class="stat">Moving Time: <strong id="stat-time">—</strong></div>
     </div>
+    <p class="hint" id="statusHint"></p>
     <div id="map"></div>
   </main>
   <footer class="wrap">© VALR Adventures — Tuscany 2025</footer>
@@ -51,18 +53,23 @@
   <script>
     const map = L.map('map', { zoomControl: true });
 
-    // Fallback center/zoom (Tuscany area) so tiles show even if GPX fails
+    // Fallback center/zoom (Tuscany area) so tiles show even before GPX draws
     map.setView([43.77, 11.25], 7);
 
-    // Use single-host OSM tiles (avoids some blockers on subdomains)
+    // Single-host OSM tiles (avoids some blockers)
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     const gpxUrl = './assets/gpx/day01.gpx';
-    new L.GPX(gpxUrl, {
+
+    const gpxLayer = new L.GPX(gpxUrl, {
       async: true,
+      // Ensure routes are parsed even if there's no <trk>
+      gpx_options: { parseElements: ['track','route'] },
+      // Make the line easy to see
+      polyline_options: { color: '#0b7285', weight: 4, opacity: 0.9 },
       marker_options: {
         startIconUrl: 'https://unpkg.com/leaflet-gpx/pin-icon-start.png',
         endIconUrl: 'https://unpkg.com/leaflet-gpx/pin-icon-end.png',
@@ -71,14 +78,24 @@
     })
     .on('loaded', e => {
       map.fitBounds(e.target.getBounds(), { padding: [20,20] });
-      document.getElementById('stat-distance').textContent = (e.target.get_distance()/1000).toFixed(1) + ' km';
-      document.getElementById('stat-ascent').textContent = Math.round(e.target.get_elevation_gain()) + ' m';
-      document.getElementById('stat-descent').textContent = Math.round(e.target.get_elevation_loss()) + ' m';
-      const msec = e.target.get_total_time();
+
+      const dist = e.target.get_distance();
+      if (dist && isFinite(dist)) {
+        document.getElementById('stat-distance').textContent = (dist/1000).toFixed(1) + ' km';
+      }
+      const eg = e.target.get_elevation_gain?.();
+      const el = e.target.get_elevation_loss?.();
+      if (isFinite(eg)) document.getElementById('stat-ascent').textContent = Math.round(eg) + ' m';
+      if (isFinite(el)) document.getElementById('stat-descent').textContent = Math.round(el) + ' m';
+
+      const msec = e.target.get_total_time?.();
       document.getElementById('stat-time').textContent = msec ? new Date(msec).toISOString().substr(11,8) : '—';
+
+      document.getElementById('statusHint').textContent = '';
     })
     .on('error', () => {
-      document.getElementById('stat-distance').textContent = 'GPX failed to load';
+      document.getElementById('statusHint').textContent = 'Could not render the GPX line. The file downloaded fine, but it may contain only unsupported elements. If this persists, I can convert it to a standard track.';
+      document.getElementById('stat-distance').textContent = '—';
     })
     .addTo(map);
   </script>
