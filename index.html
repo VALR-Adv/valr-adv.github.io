@@ -3,80 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VALR‑Adv — Projects</title>
+<title>VALR Adventure — Projects</title>
 
-<!-- Fonts: DM Sans (body), Oswald (DIN Condensed‑like for headings) -->
+<!-- Fonts: DM Sans (body), Oswald (DIN-like headings) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    /* === VALR brand palette === */
-    --green:#154734;     /* Primary dark green */
-    --gold:#DF9422;      /* Accent orange/gold */
-    --mint:#E6F0EB;      /* Light green/grey */
-    --grey:#E4E4E3;      /* Light grey */
+    /* VALR palette */
+    --green:#154734;   /* primary */
+    --gold:#DF9422;    /* accent */
+    --mint:#E6F0EB;    /* light green/grey */
     --white:#ffffff;
 
-    /* === Site colours === */
-    --bg: var(--green);
-    --header: var(--green);
-    --card-bg: #113a2a;      /* slightly darker than green for depth */
-    --text: var(--white);
-    --muted: #d7e3dc;
-    --btn: var(--gold);
-    --btn-hover: #c8821f;
-    --radius: 14px;
-    --logo-w: 180px;
+    /* Site tokens */
+    --bg:var(--green);
+    --header:var(--green);
+    --text:var(--white);
+    --muted:#d7e3dc;
+    --card:#113a2a;
+    --btn:var(--gold);
+    --btnh:#c8821f;
+    --radius:14px;
+    --logo-w:180px;
   }
 
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Arial, sans-serif;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial,sans-serif}
   a{color:inherit;text-decoration:none}
   img{max-width:100%;height:auto}
 
-  header{
-    background: var(--header);
-    padding: 28px 16px 20px;
-    border-bottom: 3px solid var(--gold);
-    text-align:center;
-  }
-  .brand{
-    display:inline-flex;flex-direction:column;align-items:center;gap:10px;
-  }
-  .brand img{width:var(--logo-w); height:auto; object-fit:contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,.25));}
-  .brand h1{
-    margin:0;
-    font-family:"Oswald", Impact, "DIN Condensed", "Arial Narrow", sans-serif;
-    font-weight:700; letter-spacing:.5px; font-size:36px;
-  }
-  .tag{margin:0;color:var(--mint);opacity:.95}
+  /* Header */
+  header{background:var(--header);padding:28px 16px 20px;border-bottom:3px solid var(--gold);text-align:center}
+  .brand{display:inline-flex;flex-direction:column;align-items:center;gap:10px}
+  .brand img{width:var(--logo-w);height:auto;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25))}
+  .brand .headline{margin:0;font-family:"Oswald",Impact,"DIN Condensed","Arial Narrow",sans-serif;font-weight:700;letter-spacing:.5px;font-size:32px}
+  .brand .tag{margin:0;color:var(--mint);opacity:.95}
 
+  /* Layout */
   main{max-width:1100px;margin:26px auto 48px;padding:0 16px}
-  .intro{
-    background:#0f3224;border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);
-    padding:14px 16px;color:var(--mint);
-  }
+  .intro{background:#0f3224;border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:14px 16px;color:var(--mint)}
+  h2{margin:18px 0 10px;font-family:"Oswald",Impact,"DIN Condensed","Arial Narrow",sans-serif;letter-spacing:.3px}
 
-  h2{
-    margin:18px 0 10px;
-    font-family:"Oswald", Impact, "DIN Condensed", "Arial Narrow", sans-serif;
-    letter-spacing:.3px;
-  }
-
+  /* Cards grid */
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:12px}
-  .card{
-    background:var(--card-bg); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius);
-    padding:16px; box-shadow:0 10px 28px rgba(0,0,0,.25);
-  }
-  .card h3{margin:0 0 8px;font-size:20px;font-family:"Oswald", Impact, "DIN Condensed", "Arial Narrow", sans-serif;}
+  .card{background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);padding:16px;box-shadow:0 10px 28px rgba(0,0,0,.25)}
+  .card h3{margin:0 0 8px;font-size:20px;font-family:"Oswald",Impact,"DIN Condensed","Arial Narrow",sans-serif}
   .card p{margin:0 0 14px;color:var(--muted);min-height:44px}
-  .btn{display:inline-block;background:var(--btn);color:var(--white);padding:10px 14px;border-radius:9px;font-weight:700}
-  .btn:hover{background:var(--btn-hover)}
+  .btn{display:inline-block;background:var(--btn);color:#fff;padding:10px 14px;border-radius:9px;font-weight:700}
+  .btn:hover{background:var(--btnh)}
 
   .footer{max-width:1100px;margin:0 auto 28px;padding:0 16px;text-align:center;color:var(--mint);font-size:12px}
-  .muted{color:var(--muted)}
   code{background:#0b2a1f;padding:2px 6px;border-radius:6px;color:#cfe9df}
 </style>
 </head>
@@ -84,47 +63,58 @@
 
 <header>
   <div class="brand">
-    <!-- Swap src to your uploaded logo path. If none yet, this alt text will show. -->
+    <!-- If your logo is SVG, change .png to .svg -->
     <img src="/assets/logo.png" alt="VALR Adventure logo">
-    <h1>Follow a Compass not a Clock</h1>
+    <h1 class="headline">Follow a Compass not a Clock</h1>
     <p class="tag">Motorcycle Adventure Alliance</p>
   </div>
 </header>
 
 <main>
   <section class="intro">
-    <strong>Welcome.</strong> This is the hub for VALR‑Adv maps and tour projects. Links below open interactive, downloadable routes.
+    <strong>Welcome.</strong> This is the hub for VALR Adventure maps and tour projects. Links below open interactive,
+    downloadable routes.
   </section>
 
   <section>
     <h2>Projects</h2>
     <div class="grid">
+
+      <!-- NEW: Tuscany Tour hub -->
+      <article class="card">
+        <h3>Tuscany Tour</h3>
+        <p>Explore the tour day-by-day. Each page has an interactive map and GPX download.</p>
+        <a class="btn" href="./tuscany-2025/index.html">Open Tour</a>
+      </article>
+
+      <!-- Existing: Day 2 standalone (you can keep or remove once Day 2 lives under /tuscany-2025/) -->
       <article class="card">
         <h3>Tour of Tuscany — Day 2</h3>
         <p>Interactive Leaflet map: route overlay, scenic markers with images, and GPX download.</p>
         <a class="btn" href="./BikeShed-Day2-Leaflet-Map.html">Open map</a>
       </article>
 
-      <!-- Duplicate this block for new days/projects -->
+      <!-- Placeholder example -->
       <article class="card">
         <h3>Coming soon</h3>
-        <p>Duplicate this card for Day 1, Day 3, etc. Point the button at your new HTML page.</p>
+        <p>Duplicate this card for new projects and point the button at your new HTML page.</p>
         <a class="btn" href="#">Placeholder</a>
       </article>
+
     </div>
   </section>
 
   <section style="margin-top:28px">
     <h2>For future me</h2>
-    <ol class="muted">
-      <li>Upload your logo to <code>/assets/logo.svg</code> (or <code>logo.png</code>) and edit the <code>&lt;img src&gt;</code> above if needed.</li>
-      <li>Add a new page (e.g. <code>tuscany-2025/day03.html</code> or <code>day03.html</code>) and duplicate a card.</li>
+    <ol style="color:#d7e3dc">
+      <li>Upload your logo to <code>/assets/logo.png</code> (or <code>.svg</code>) and adjust the <code>&lt;img src&gt;</code> if needed.</li>
+      <li>Create <code>/tuscany-2025/index.html</code> (submenu) and <code>day01.html</code> … <code>day05.html</code> pages under that folder.</li>
       <li>Commit — site auto-updates at <code>https://valr-adv.github.io/</code>.</li>
     </ol>
   </section>
 </main>
 
-<div class="footer">© VALR‑Adv · Brand colours: #154734 & #DF9422 · Hosted on GitHub Pages</div>
+<div class="footer">© VALR Adventure · Brand colours: #154734 & #DF9422 · Hosted on GitHub Pages</div>
 
 </body>
 </html>
